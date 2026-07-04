@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Water_rocket｜水火箭 STEM 一日夏令營</title>
+  <style>
+    :root {
+      --sky: #e7f7ff;
+      --deep: #16324f;
+      --blue: #0e79b2;
+      --cyan: #18b7be;
+      --yellow: #ffbf3f;
+      --orange: #f26b38;
+      --green: #38a169;
+      --ink: #1c2530;
+      --muted: #607080;
+      --line: rgba(22, 50, 79, 0.14);
+      --white: #ffffff;
+      --shadow: 0 18px 50px rgba(22, 50, 79, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif;
+      color: var(--ink);
+      background: #f7fbfd;
+      line-height: 1.65;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.92);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 68px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      color: var(--deep);
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--yellow);
+      color: var(--deep);
+      box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .nav-links a:hover {
+      color: var(--blue);
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: 0;
+      background: var(--orange);
+      color: white;
+      font-weight: 800;
+      box-shadow: 0 12px 24px rgba(242, 107, 56, 0.24);
+      cursor: pointer;
+    }
+
+    .button.secondary {
+      background: var(--white);
+      color: var(--deep);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .hero {
+      min-height: 680px;
+      display: grid;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(105deg, rgba(8, 31, 52, 0.78) 0%, rgba(8, 31, 52, 0.58) 42%, rgba(8, 31, 52, 0.16) 74%),
+        url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=85") center/cover;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 120px;
+      background: linear-gradient(180deg, rgba(247, 251, 253, 0), #f7fbfd);
+    }
+
+    .rocket-scene {
+      position: absolute;
+      right: 8%;
+      top: 18%;
+      width: min(360px, 34vw);
+      aspect-ratio: 1;
+      pointer-events: none;
+    }
+
+    .rocket {
+      position: absolute;
+      right: 84px;
+      top: 50px;
+      width: 66px;
+      height: 190px;
+      transform: rotate(38deg);
+    }
+
+    .rocket-body {
+      position: absolute;
+      inset: 20px 14px 22px;
+      background: linear-gradient(90deg, #ffffff, #dff8ff 54%, #89d8f7);
+      border: 3px solid rgba(22, 50, 79, 0.28);
+      border-radius: 36px 36px 16px 16px;
+    }
+
+    .rocket-nose {
+      position: absolute;
+      top: 0;
+      left: 12px;
+      width: 42px;
+      height: 48px;
+      background: var(--orange);
+      clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    }
+
+    .rocket-fin {
+      position: absolute;
+      bottom: 17px;
+      width: 26px;
+      height: 42px;
+      background: var(--yellow);
+      border: 2px solid rgba(22, 50, 79, 0.2);
+    }
+
+    .rocket-fin.left {
+      left: 2px;
+      transform: skewY(-22deg);
+    }
+
+    .rocket-fin.right {
+      right: 2px;
+      transform: skewY(22deg);
+    }
+
+    .water-trail {
+      position: absolute;
+      right: 150px;
+      top: 230px;
+      width: 42px;
+      height: 240px;
+      transform: rotate(38deg);
+      transform-origin: top;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(24, 183, 190, 0.55), rgba(24, 183, 190, 0));
+      border-radius: 50%;
+      filter: blur(1px);
+    }
+
+    .spark {
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.75);
+      box-shadow: 0 0 16px rgba(255, 255, 255, 0.6);
+    }
+
+    .spark.one {
+      width: 20px;
+      height: 20px;
+      right: 230px;
+      top: 265px;
+    }
+
+    .spark.two {
+      width: 12px;
+      height: 12px;
+      right: 130px;
+      top: 310px;
+    }
+
+    .spark.three {
+      width: 30px;
+      height: 30px;
+      right: 190px;
+      top: 355px;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      color: white;
+      padding: 80px 0 120px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.16);
+      font-weight: 800;
+      border: 1px solid rgba(255, 255, 255, 0.26);
+    }
+
+    h1 {
+      max-width: 720px;
+      margin: 0;
+      font-size: clamp(44px, 6vw, 82px);
+      line-height: 1.06;
+      letter-spacing: 0;
+    }
+
+    .hero-lead {
+      max-width: 660px;
+      margin: 24px 0 0;
+      font-size: clamp(18px, 2.1vw, 24px);
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(120px, 1fr));
+      gap: 12px;
+      max-width: 820px;
+      margin-top: 52px;
+    }
+
+    .stat {
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      background: rgba(255, 255, 255, 0.13);
+      border-radius: 8px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 24px;
+      line-height: 1.1;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 4px;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 14px;
+    }
+
+    section {
+      padding: 76px 0;
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .section-title {
+      max-width: 760px;
+      margin-bottom: 34px;
+    }
+
+    .section-title .kicker {
+      color: var(--blue);
+      font-weight: 900;
+      margin: 0 0 6px;
+    }
+
+    h2 {
+      margin: 0;
+      color: var(--deep);
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    .section-title p {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .poster-layout {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .poster-frame {
+      margin: 0;
+      border-radius: 8px;
+      overflow: hidden;
+      background: white;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .poster-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .poster-points {
+      display: grid;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .poster-point {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: white;
+    }
+
+    .poster-point b {
+      color: var(--deep);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .poster-point span {
+      color: var(--muted);
+    }
+
+    .feature {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 24px;
+      min-height: 220px;
+      box-shadow: 0 8px 26px rgba(22, 50, 79, 0.07);
+    }
+
+    .icon {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      background: var(--sky);
+      color: var(--blue);
+      font-size: 24px;
+    }
+
+    .feature:nth-child(2) .icon {
+      background: #fff4d7;
+      color: #b96d00;
+    }
+
+    .feature:nth-child(3) .icon {
+      background: #e8fbf3;
+      color: var(--green);
+    }
+
+    .feature:nth-child(4) .icon {
+      background: #fff0ea;
+      color: var(--orange);
+    }
+
+    .feature h3,
+    .info-panel h3,
+    .faq details summary,
+    .timeline-card h3 {
+      margin: 0;
+      color: var(--deep);
+      font-size: 20px;
+      line-height: 1.3;
+    }
+
+    .feature p {
+      margin: 12px 0 0;
+      color: var(--muted);
+    }
+
+    .band {
+      background: #ffffff;
+      border-block: 1px solid var(--line);
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .timeline-card {
+      display: grid;
+      grid-template-columns: 112px 1fr;
+      gap: 18px;
+      align-items: start;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .time {
+      color: var(--blue);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .timeline-card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+    }
+
+    .learning-layout {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .diagram {
+      position: relative;
+      min-height: 420px;
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(231, 247, 255, 0.85), rgba(255, 255, 255, 0.88)),
+        linear-gradient(120deg, #e7f7ff, #fff3d2);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .diagram .ground {
+      position: absolute;
+      inset: auto 0 0;
+      height: 110px;
+      background: linear-gradient(180deg, #8bd17d, #42a85a);
+    }
+
+    .diagram .mini-rocket {
+      position: absolute;
+      left: 36%;
+      top: 16%;
+      width: 46px;
+      height: 132px;
+      transform: rotate(28deg);
+      background: linear-gradient(90deg, #fff, #d7f4ff);
+      border-radius: 24px 24px 10px 10px;
+      border: 3px solid rgba(22, 50, 79, 0.22);
+    }
+
+    .diagram .mini-rocket::before {
+      content: "";
+      position: absolute;
+      left: 5px;
+      top: -31px;
+      width: 30px;
+      height: 35px;
+      background: var(--orange);
+      clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    }
+
+    .diagram .arc {
+      position: absolute;
+      left: 22%;
+      top: 20%;
+      width: 260px;
+      height: 180px;
+      border-top: 4px dashed rgba(14, 121, 178, 0.55);
+      border-radius: 50%;
+      transform: rotate(-18deg);
+    }
+
+    .diagram .label {
+      position: absolute;
+      width: 138px;
+      padding: 10px 12px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--deep);
+      font-weight: 800;
+      box-shadow: 0 8px 20px rgba(22, 50, 79, 0.08);
+    }
+
+    .diagram .label.one {
+      top: 42px;
+      left: 28px;
+    }
+
+    .diagram .label.two {
+      top: 178px;
+      right: 28px;
+    }
+
+    .diagram .label.three {
+      bottom: 132px;
+      left: 44px;
+    }
+
+    .diagram .label.four {
+      bottom: 44px;
+      right: 38px;
+    }
+
+    .info-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .info-panel {
+      padding: 22px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .info-panel p {
+      margin: 8px 0 0;
+      color: var(--muted);
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .detail-box {
+      background: var(--deep);
+      color: white;
+      border-radius: 8px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .detail-box.alt {
+      background: white;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    .detail-box h3 {
+      margin: 0 0 16px;
+      font-size: 24px;
+    }
+
+    .detail-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .detail-list li {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.16);
+      padding-top: 12px;
+    }
+
+    .alt .detail-list li {
+      border-color: var(--line);
+    }
+
+    .detail-list b {
+      color: var(--yellow);
+    }
+
+    .alt .detail-list b {
+      color: var(--blue);
+    }
+
+    .faq {
+      display: grid;
+      gap: 12px;
+    }
+
+    .faq details {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px 20px;
+    }
+
+    .faq summary {
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .faq summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq p {
+      margin: 10px 0 0;
+      color: var(--muted);
+    }
+
+    .cta {
+      background:
+        linear-gradient(100deg, rgba(22, 50, 79, 0.94), rgba(14, 121, 178, 0.88)),
+        url("https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1800&q=85") center/cover;
+      color: white;
+      padding: 78px 0;
+    }
+
+    .cta-layout {
+      display: grid;
+      grid-template-columns: 0.78fr 1.22fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .cta h2 {
+      color: white;
+    }
+
+    .cta p {
+      max-width: 690px;
+      color: rgba(255, 255, 255, 0.86);
+      font-size: 18px;
+      margin: 14px 0 0;
+    }
+
+    .register-card {
+      background: white;
+      color: var(--ink);
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .camp-form {
+      display: grid;
+      gap: 16px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .form-field.full {
+      grid-column: 1 / -1;
+    }
+
+    .form-field label,
+    .agreement {
+      color: var(--deep);
+      font-size: 14px;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid rgba(22, 50, 79, 0.2);
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: var(--ink);
+      background: #f7fbfd;
+      font: inherit;
+      outline: none;
+    }
+
+    .form-field textarea {
+      min-height: 96px;
+      resize: vertical;
+    }
+
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(14, 121, 178, 0.12);
+      background: white;
+    }
+
+    .required {
+      color: var(--orange);
+    }
+
+    .agreement {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f7fbfd;
+    }
+
+    .agreement input {
+      width: 18px;
+      height: 18px;
+      margin-top: 3px;
+      flex: 0 0 auto;
+    }
+
+    .form-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .form-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .form-success {
+      display: none;
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 8px;
+      background: #e8fbf3;
+      color: #20633f;
+      font-weight: 800;
+    }
+
+    .form-success.is-visible {
+      display: block;
+    }
+
+    .register-card p {
+      color: var(--muted);
+      margin: 14px 0 0;
+      font-size: 15px;
+    }
+
+    footer {
+      padding: 28px 0;
+      color: var(--muted);
+      background: #ffffff;
+      border-top: 1px solid var(--line);
+      text-align: center;
+    }
+
+    @media (max-width: 920px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        min-height: 640px;
+      }
+
+      .rocket-scene {
+        opacity: 0.6;
+        right: -20px;
+        width: 300px;
+      }
+
+      .hero-stats,
+      .feature-grid,
+      .poster-layout,
+      .timeline,
+      .learning-layout,
+      .details-grid,
+      .cta-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-stats {
+        max-width: 520px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .nav {
+        min-height: 62px;
+      }
+
+      .brand span {
+        max-width: 160px;
+        white-space: normal;
+        line-height: 1.2;
+      }
+
+      .hero {
+        min-height: 690px;
+      }
+
+      .hero-content {
+        padding: 72px 0 96px;
+      }
+
+      .hero-stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .timeline-card {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .detail-list li {
+        grid-template-columns: 1fr;
+        gap: 2px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 56px 0;
+      }
+
+      .diagram {
+        min-height: 360px;
+      }
+
+      .diagram .label {
+        width: 124px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="主要導覽">
+      <a class="brand" href="#top" aria-label="回到首頁">
+        <span class="brand-mark">🚀</span>
+        <span>Water_rocket｜水火箭 STEM 一日夏令營</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features">活動亮點</a>
+        <a href="#schedule">一日流程</a>
+        <a href="#info">活動資訊</a>
+        <a href="#faq">常見問題</a>
+        <a class="button" href="#register">立即報名</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="rocket-scene" aria-hidden="true">
+        <div class="water-trail"></div>
+        <div class="rocket">
+          <div class="rocket-nose"></div>
+          <div class="rocket-body"></div>
+          <div class="rocket-fin left"></div>
+          <div class="rocket-fin right"></div>
+        </div>
+        <span class="spark one"></span>
+        <span class="spark two"></span>
+        <span class="spark three"></span>
+      </div>
+      <div class="hero-content">
+        <div class="eyebrow">一日成為水火箭工程師</div>
+        <h1 id="hero-title">親手打造火箭，讓科學真的飛起來</h1>
+        <p class="hero-lead">從壓力、推力到重心與空氣阻力，孩子將在設計、製作、測試與改良中完成自己的水火箭，並參加戶外發射挑戰賽。</p>
+        <div class="hero-actions">
+          <a class="button" href="#register">立即報名</a>
+          <a class="button secondary" href="#schedule">查看課程流程</a>
+        </div>
+        <div class="hero-stats" aria-label="活動重點">
+          <div class="stat">
+            <strong>1 日</strong>
+            <span>完整 STEM 體驗</span>
+          </div>
+          <div class="stat">
+            <strong>09:00</strong>
+            <span>到 16:30</span>
+          </div>
+          <div class="stat">
+            <strong>20-30</strong>
+            <span>每梯建議名額</span>
+          </div>
+          <div class="stat">
+            <strong>3-6</strong>
+            <span>國小年級適合</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="poster" class="band" aria-labelledby="poster-title">
+      <div class="wrap poster-layout">
+        <figure class="poster-frame">
+          <img src="poster-water-rocket.png" alt="水火箭 STEM 一日夏令營海報，呈現校園、水火箭發射、AI 軌跡分析與親子共學情境" />
+        </figure>
+        <div>
+          <div class="section-title">
+            <p class="kicker">活動海報</p>
+            <h2 id="poster-title">校園裡的水火箭 AI 親子共學體驗</h2>
+            <p>海報主視覺已整合校園、水火箭、AI 軌跡分析與親子互動，適合用於招生網站、社群貼文與現場活動宣傳。</p>
+          </div>
+          <div class="poster-points">
+            <div class="poster-point">
+              <div class="icon" aria-hidden="true">🏫</div>
+              <div><b>校園場景</b><span>用真實學校操場氛圍建立家長信任感。</span></div>
+            </div>
+            <div class="poster-point">
+              <div class="icon" aria-hidden="true">🚀</div>
+              <div><b>水火箭發射</b><span>用水霧與升空瞬間呈現課程的動手實作感。</span></div>
+            </div>
+            <div class="poster-point">
+              <div class="icon" aria-hidden="true">🤖</div>
+              <div><b>AI 科技元素</b><span>以軌跡分析、數據面板與學習輔助呈現 STEM 升級感。</span></div>
+            </div>
+            <div class="poster-point">
+              <div class="icon" aria-hidden="true">👨‍👩‍👧</div>
+              <div><b>親子共學</b><span>讓家長看見陪伴、合作與安全參與的活動價值。</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" aria-labelledby="features-title">
+      <div class="wrap">
+        <div class="section-title">
+          <p class="kicker">活動亮點</p>
+          <h2 id="features-title">不是坐著聽科學，而是把科學做出來</h2>
+          <p>課程結合動手製作、戶外發射、團隊合作與工程改良，讓孩子在真實挑戰中理解科學。</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature">
+            <div class="icon" aria-hidden="true">🛠</div>
+            <h3>親手製作</h3>
+            <p>從材料認識、瓶身組裝、尾翼配置到外觀設計，完成一支專屬水火箭。</p>
+          </article>
+          <article class="feature">
+            <div class="icon" aria-hidden="true">💡</div>
+            <h3>科學原理</h3>
+            <p>用孩子能理解的方式學習壓力、推力、重心、阻力與飛行穩定度。</p>
+          </article>
+          <article class="feature">
+            <div class="icon" aria-hidden="true">🎯</div>
+            <h3>發射挑戰</h3>
+            <p>實際進行戶外發射測試，觀察距離、角度與飛行軌跡。</p>
+          </article>
+          <article class="feature">
+            <div class="icon" aria-hidden="true">🏆</div>
+            <h3>成果頒獎</h3>
+            <p>挑戰最遠距離、最佳穩定、最佳造型，結業頒發水火箭工程師證書。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="schedule" class="band" aria-labelledby="schedule-title">
+      <div class="wrap">
+        <div class="section-title">
+          <p class="kicker">一日流程</p>
+          <h2 id="schedule-title">上午製作，下午發射挑戰</h2>
+          <p>流程可依場地與天氣微調；若遇雨天，可改為室內測試、設計改良與發射架示範。</p>
+        </div>
+        <div class="timeline">
+          <article class="timeline-card">
+            <div class="time">09:00-09:20</div>
+            <div>
+              <h3>報到與分組</h3>
+              <p>認識隊友、建立小隊任務，說明今日挑戰目標。</p>
+            </div>
+          </article>
+          <article class="timeline-card">
+            <div class="time">09:20-10:00</div>
+            <div>
+              <h3>水火箭科學原理</h3>
+              <p>理解壓力、推力、重心與空氣阻力。</p>
+            </div>
+          </article>
+          <article class="timeline-card">
+            <div class="time">10:00-10:20</div>
+            <div>
+              <h3>示範發射</h3>
+              <p>觀察水量、角度、發射安全距離與飛行狀態。</p>
+            </div>
+          </article>
+          <article class="timeline-card">
+            <div class="time">10:20-11:30</div>
+            <div>
+              <h3>水火箭製作</h3>
+              <p>完成瓶身、尾翼、鼻錐與小組識別設計。</p>
+            </div>
+          </article>
+          <article class="timeline-card">
+            <div class="time">11:30-12:00</div>
+            <div>
+              <h3>小組設計分享</h3>
+              <p>為火箭命名，說明設計想法與預期飛行方式。</p>
+            </div>
+          </article>
+          <article class="timeline-card">
+            <div class="time">12:00-13:00</div>
+            <div>
+              <h3>午餐休息</h3>
+              <p>補充體力，也可安排短片或火箭知識問答。</p>
+            </div>
+          </article>
+          <article class="timeline-card">
+            <div class="time">13:00-13:30</div>
+            <div>
+              <h3>發射安全訓練</h3>
+              <p>練習安全手勢、等待區、觀察區與發射流程。</p>
+            </div>
+          </article>
+          <article class="timeline-card">
+            <div class="time">13:30-14:30</div>
+            <div>
+              <h3>第一輪發射測試</h3>
+              <p>記錄距離、方向、穩定度與需要改良的地方。</p>
+            </div>
+          </article>
+          <article class="timeline-card">
+            <div class="time">14:30-15:10</div>
+            <div>
+              <h3>改良與再設計</h3>
+              <p>調整尾翼、重心、水量與角度，準備正式挑戰。</p>
+            </div>
+          </article>
+          <article class="timeline-card">
+            <div class="time">15:10-16:00</div>
+            <div>
+              <h3>水火箭挑戰賽</h3>
+              <p>挑戰最遠距離、最佳穩定、最佳造型與團隊合作。</p>
+            </div>
+          </article>
+          <article class="timeline-card">
+            <div class="time">16:00-16:30</div>
+            <div>
+              <h3>成果分享與頒獎</h3>
+              <p>回顧設計、測試與改良歷程，頒發工程師證書。</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="learning" aria-labelledby="learning-title">
+      <div class="wrap learning-layout">
+        <div class="diagram" aria-label="水火箭學習概念示意">
+          <div class="arc"></div>
+          <div class="mini-rocket"></div>
+          <div class="ground"></div>
+          <div class="label one">壓力把水推出</div>
+          <div class="label two">推力讓火箭升空</div>
+          <div class="label three">重心影響穩定</div>
+          <div class="label four">尾翼控制方向</div>
+        </div>
+        <div>
+          <div class="section-title">
+            <p class="kicker">孩子會學到什麼</p>
+            <h2 id="learning-title">把抽象原理變成看得見的飛行結果</h2>
+            <p>水火箭最適合做 STEM 入門，因為每一次發射都能立刻看到設計差異。</p>
+          </div>
+          <div class="info-list">
+            <article class="info-panel">
+              <h3>科學探究</h3>
+              <p>理解水量、氣壓、角度與飛行距離之間的關係。</p>
+            </article>
+            <article class="info-panel">
+              <h3>工程設計</h3>
+              <p>從設計、測試、失敗、修正到再挑戰，建立改良思維。</p>
+            </article>
+            <article class="info-panel">
+              <h3>團隊合作</h3>
+              <p>分工製作、共同紀錄、討論問題並提出下一輪改良策略。</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="info" class="band" aria-labelledby="info-title">
+      <div class="wrap">
+        <div class="section-title">
+          <p class="kicker">活動資訊</p>
+          <h2 id="info-title">報名前請先確認</h2>
+        </div>
+        <div class="details-grid">
+          <div class="detail-box">
+            <h3>基本資訊</h3>
+            <ul class="detail-list">
+              <li><b>對象</b><span>國小三年級至六年級</span></li>
+              <li><b>時間</b><span>09:00-16:30</span></li>
+              <li><b>地點</b><span>待填：學校、活動中心或戶外草地場地</span></li>
+              <li><b>費用</b><span>待填：可含材料、午餐、保險與證書</span></li>
+              <li><b>名額</b><span>每梯建議 20-30 人，額滿為止</span></li>
+            </ul>
+          </div>
+          <div class="detail-box alt">
+            <h3>安全規劃</h3>
+            <ul class="detail-list">
+              <li><b>分區</b><span>發射區、等待區、觀察區明確分開</span></li>
+              <li><b>操作</b><span>發射由教師指導，學生依序操作</span></li>
+              <li><b>器材</b><span>發射前進行瓶身、尾翼與接頭檢查</span></li>
+              <li><b>天候</b><span>雨天可改室內設計測試與安全示範</span></li>
+              <li><b>提醒</b><span>建議穿著方便活動的鞋子與服裝</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" aria-labelledby="faq-title">
+      <div class="wrap">
+        <div class="section-title">
+          <p class="kicker">常見問題</p>
+          <h2 id="faq-title">家長最常問的事</h2>
+        </div>
+        <div class="faq">
+          <details open>
+            <summary>沒有科學基礎可以參加嗎？</summary>
+            <p>可以。課程會從生活化的例子開始，讓孩子先觀察，再動手做，最後透過發射結果理解原理。</p>
+          </details>
+          <details>
+            <summary>孩子會把作品帶回家嗎？</summary>
+            <p>可以帶回自己完成的水火箭作品；若場地或安全規範有特殊限制，會於活動前說明。</p>
+          </details>
+          <details>
+            <summary>下雨怎麼辦？</summary>
+            <p>若雨勢影響戶外發射，會改為室內設計挑戰、飛行穩定測試、發射架示範與科學競賽。</p>
+          </details>
+          <details>
+            <summary>家長可以陪同嗎？</summary>
+            <p>依場地安排決定。若開放陪同，會規劃家長觀察區，避免影響發射安全動線。</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="register" class="cta" aria-labelledby="register-title">
+      <div class="wrap cta-layout">
+        <div>
+          <h2 id="register-title">準備好讓孩子的科學夢發射了嗎？</h2>
+          <p>填寫報名表後，主辦單位將與您確認梯次、繳費方式、攜帶物品與活動通知。名額有限，額滿即關閉報名。</p>
+          <div class="hero-actions">
+            <a class="button" href="#camp-form">填寫報名表</a>
+            <a class="button secondary" href="mailto:example@example.com">聯絡主辦單位</a>
+          </div>
+        </div>
+        <aside class="register-card" aria-label="水火箭夏令營報名表">
+          <form id="camp-form" class="camp-form">
+            <div class="form-row">
+              <div class="form-field">
+                <label for="student-name">學生姓名 <span class="required">*</span></label>
+                <input id="student-name" name="studentName" type="text" autocomplete="name" required />
+              </div>
+              <div class="form-field">
+                <label for="grade">學生年級 <span class="required">*</span></label>
+                <select id="grade" name="grade" required>
+                  <option value="">請選擇</option>
+                  <option>國小三年級</option>
+                  <option>國小四年級</option>
+                  <option>國小五年級</option>
+                  <option>國小六年級</option>
+                  <option>其他</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="school">就讀學校 <span class="required">*</span></label>
+                <input id="school" name="school" type="text" required />
+              </div>
+              <div class="form-field">
+                <label for="session">參加梯次 <span class="required">*</span></label>
+                <select id="session" name="session" required>
+                  <option value="">請選擇</option>
+                  <option>第一梯：日期待填</option>
+                  <option>第二梯：日期待填</option>
+                  <option>第三梯：日期待填</option>
+                  <option>其他梯次待通知</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="parent-name">家長姓名 <span class="required">*</span></label>
+                <input id="parent-name" name="parentName" type="text" required />
+              </div>
+              <div class="form-field">
+                <label for="phone">家長手機 <span class="required">*</span></label>
+                <input id="phone" name="phone" type="tel" inputmode="tel" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="email">Email <span class="required">*</span></label>
+                <input id="email" name="email" type="email" autocomplete="email" required />
+              </div>
+              <div class="form-field">
+                <label for="emergency-phone">緊急聯絡電話 <span class="required">*</span></label>
+                <input id="emergency-phone" name="emergencyPhone" type="tel" inputmode="tel" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="meal">午餐需求 <span class="required">*</span></label>
+                <select id="meal" name="meal" required>
+                  <option value="">請選擇</option>
+                  <option>一般餐</option>
+                  <option>素食</option>
+                  <option>自備午餐</option>
+                  <option>其他，於備註說明</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label for="photo">拍照紀錄同意 <span class="required">*</span></label>
+                <select id="photo" name="photoConsent" required>
+                  <option value="">請選擇</option>
+                  <option>同意公開作為活動紀錄與招生宣傳</option>
+                  <option>僅同意內部活動紀錄</option>
+                  <option>不同意公開使用</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-field full">
+              <label for="health">過敏或特殊健康狀況</label>
+              <textarea id="health" name="health" placeholder="若無可填寫「無」。例如食物過敏、氣喘、近期受傷、需定時用藥等。"></textarea>
+            </div>
+
+            <div class="form-field full">
+              <label for="notes">備註</label>
+              <textarea id="notes" name="notes" placeholder="例如分組需求、接送安排、收據或發票需求。"></textarea>
+            </div>
+
+            <label class="agreement" for="safety">
+              <input id="safety" name="safety" type="checkbox" required />
+              <span>我已了解水火箭活動需遵守發射區、等待區、觀察區規範，並同意孩子依照教師指示進行操作。<span class="required">*</span></span>
+            </label>
+
+            <div class="form-actions">
+              <button class="button" type="submit">送出報名資料</button>
+              <p class="form-note">此表單目前為前端示範版，正式招生時可再串接 Google 表單或後台。</p>
+            </div>
+          </form>
+          <div id="form-success" class="form-success" role="status" aria-live="polite">
+            已收到報名資料示範送出。正式上線前，請再串接 Google 表單或後台收件系統。
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">Water_rocket｜水火箭 STEM 一日夏令營｜主辦單位、地址、電話與報名連結可依實際資訊修改</div>
+  </footer>
+  <script>
+    const campForm = document.querySelector("#camp-form");
+    const formSuccess = document.querySelector("#form-success");
+
+    campForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      formSuccess.classList.add("is-visible");
+      campForm.reset();
+      formSuccess.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  </script>
+</body>
+</html>
